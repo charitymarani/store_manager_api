@@ -11,7 +11,7 @@ class BaseTestCase(TestCase):
         self.app_context.push()
 
     def tearDown(self):
-        """removes the db and the context"""
+        """removes the dictionaries and the context"""
         self.app_context.pop()
 
 
