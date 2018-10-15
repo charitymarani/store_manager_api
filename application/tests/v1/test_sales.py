@@ -12,7 +12,7 @@ class TestSales(BaseTestCase):
                 )),
                 content_type='application/json'
             )
-            response_data = json.loads(response.data)
+            response_data = json.loads(response.data.decode())
             self.assertEqual("Sale added successfully",response_data["message"])
             self.assertEqual(response.status_code, 201)
 
@@ -20,13 +20,13 @@ class TestSales(BaseTestCase):
         with self.client:
             response = self.client.get(
                 '/api/v1/sales')
-            response_data = json.loads(response.data)
+            response_data = json.loads(response.data.decode())
             self.assertTrue(response_data['status'] == 'success')
             self.assertEqual(response.status_code, 200)
     def test_get_sale_by_id(self):
         with self.client:
             response = self.client.get(
                 '/api/v1/sales/1')
-            response_data = json.loads(response.data)
+            response_data = json.loads(response.data.decode())
             self.assertTrue(response_data['status'] == 'success')
             self.assertEqual(response.status_code, 200)
