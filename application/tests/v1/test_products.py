@@ -19,7 +19,7 @@ class TestProducts(BaseTestCase):
                 )),
                 content_type='application/json'
             )
-            response_data = json.loads(response.data)
+            response_data = json.loads(response.data.decode())
             self.assertEqual("Product added successfully",response_data["message"])
             self.assertEqual(response.status_code, 201)
 
@@ -27,13 +27,13 @@ class TestProducts(BaseTestCase):
         with self.client:
             response = self.client.get(
                 '/api/v1/products')
-            response_data = json.loads(response.data)
+            response_data = json.loads(response.data.decode())
             self.assertTrue(response_data['status'] == 'success')
             self.assertEqual(response.status_code, 200)
     def test_get_product_by_id(self):
         with self.client:
             response = self.client.get(
                 '/api/v1/products/100')
-            response_data = json.loads(response.data)
+            response_data = json.loads(response.data.decode())
             self.assertTrue(response_data['status'] == 'success')
             self.assertEqual(response.status_code, 200)
