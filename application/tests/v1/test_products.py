@@ -1,5 +1,5 @@
 import json
-from base_test import BaseTestCase
+from .base_test import BaseTestCase
 class TestProducts(BaseTestCase):
 
     def test_post_product(self):
