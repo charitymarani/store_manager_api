@@ -40,5 +40,11 @@ def post_product():
     response=jsonify(product_object.put(id, name, category, B_price,S_price,qty,limit,desc))
 
     response.status_code = 201
-    return response   
+    return response  
+@product.route('/products',methods=['GET']) 
+@jwt_required
+def get_all_products():
+    response=jsonify(product_object.get_all_products())
+    response.status_code=200
+    return response
     
