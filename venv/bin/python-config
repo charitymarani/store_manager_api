@@ -1,4 +1,4 @@
-#!/home/charity/Desktop/store_api_v1/store_manager_api/venv/bin/python
+#!/home/charity/Desktop/storeapi/store_manager_api/venv/bin/python
 
 import sys
 import getopt

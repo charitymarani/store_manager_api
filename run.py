@@ -1,5 +1,5 @@
 from application import create_app
-# from instance.config import app_config
+
 
 CONFIG_NAME="development"
 app = create_app(CONFIG_NAME)
