@@ -9,12 +9,12 @@ class TestSales(BaseTestCase):
             self.client.post(
                 '/api/v1/auth/register',
                 data=json.dumps(dict(
-                    name='charity marani',
-                    email='chacha@gmail.com',
-                    role='attendant',
-                    username='chacha',
-                    password='1234',
-                    confirm_password='1234'
+                    name="charity marani",
+                    email="chacha@gmail.com",
+                    role="attendant",
+                    username="chacha1",
+                    password="1234",
+                    confirm_password="1234"
                 )),
                 content_type='application/json'
             )
@@ -23,13 +23,14 @@ class TestSales(BaseTestCase):
             login_response = self.client.post(
                 '/api/v1/auth/login',
                 data=json.dumps(dict(
-                    username='chacha',
-                    password='1234'
+                    username="chacha1",
+                    password="1234"
                     
                 )),
                 content_type='application/json'
             )
             result=json.loads(login_response.data)
+           
             token=result["token"]
             response = self.client.post(
                 '/api/v1/sales',headers=dict(Authorization="Bearer " + token),
@@ -52,23 +53,23 @@ class TestSales(BaseTestCase):
             #register an admin and an attendant
             self.client.post('/api/v1/auth/register',
                 data=json.dumps(dict(
-                    name='charity marani',
-                    email='chacha@gmail.com',
-                    role='attendant',
-                    username='chachatt',
-                    password='1234',
-                    confirm_password='1234'
+                    name="charity marani",
+                    email="chacha@gmail.com",
+                    role="attendant",
+                    username="chachatt",
+                    password="1234",
+                    confirm_password="1234"
                     )),
                     content_type='application/json'
                     )
             self.client.post('/api/v1/auth/register',
                 data=json.dumps(dict(
-                    name='charity marani',
-                    email='chacha@gmail.com',
-                    role='admin',
-                    username='chadmin',
-                    password='1234',
-                    confirm_password='1234'
+                    name="charity marani",
+                    email="chacha@gmail.com",
+                    role="admin",
+                    username="chadmin",
+                    password="1234",
+                    confirm_password="1234"
                     )),
                     content_type='application/json'
                     )
@@ -113,7 +114,7 @@ class TestSales(BaseTestCase):
                     name='charity marani',
                     email='chacha@gmail.com',
                     role='attendant',
-                    username='anattendant',
+                    username='myattendant',
                     password='1234',
                     confirm_password='1234'
                     )),
@@ -124,7 +125,7 @@ class TestSales(BaseTestCase):
                     name='charity marani',
                     email='chacha@gmail.com',
                     role='admin',
-                    username='anadmin',
+                    username='myadmin',
                     password='1234',
                     confirm_password='1234'
                     )),
@@ -132,26 +133,27 @@ class TestSales(BaseTestCase):
                     )
             response_login_attendant=self.client.post('api/v1/auth/login',
                 data=json.dumps(dict(
-                    username="anattendant",
+                    username="myattendant",
                     password="1234"
                 )),
                 content_type='application/json'
                 )
             result_login_attendant=json.loads(response_login_attendant.data)
-            token1=result_login_attendant["token"]
+            a_token=result_login_attendant['token']
             #  login admin
             response_login_admin=self.client.post('api/v1/auth/login',
                 data=json.dumps(dict(
-                    username="anadmin",
-                    password="1234"
+                    username='myadmin',
+                    password='1234'
                 )),
                 content_type='application/json'
                 )
             result_login_admin=json.loads(response_login_admin.data)
-            token2=result_login_admin["token"]
+          
+            a_token2=result_login_admin["token"]
             #let attendant post a sale
-            self.client.post(
-                '/api/v1/sales',headers=dict(Authorization="Bearer " + token1),
+            self.client.post('/api/v1/sales',
+                headers=dict(Authorization="Bearer " + a_token),
                 data=json.dumps(dict(
                     items_count=4,
                     total_amount=5000
@@ -159,11 +161,11 @@ class TestSales(BaseTestCase):
                 content_type='application/json'
             )
             #let the attendant who posted get the sale
-            responseatt=self.client.get('api/v1/sales',headers=dict(Authorization="Bearer " + token1))
+            responseatt=self.client.get('api/v1/sales/1',headers=dict(Authorization="Bearer " + a_token))
             
             self.assertEqual(responseatt.status_code,200)
             #let the admin  get the sale
-            responseadmin=self.client.get('api/v1/sales',headers=dict(Authorization="Bearer " + token2))
+            responseadmin=self.client.get('api/v1/sales/1',headers=dict(Authorization="Bearer " + a_token2))
             
             self.assertEqual(responseadmin.status_code,200)
     

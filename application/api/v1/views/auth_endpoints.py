@@ -18,7 +18,7 @@ def register():
     if not data:
         return jsonify({"message": "Fields cannot be empty"}) 
     username = data.get('username').strip()
-    name = data.get('name').strip()
+    name = data.get('name')
     email = data.get('email').strip()
     password = data.get('password').strip()
     confirm_password = data.get('confirm_password').strip()
@@ -26,7 +26,6 @@ def register():
 
     if username is None or not username:
         return jsonify({"message": "Please specify a username"}),206
-    # if len(username)  
     if name is None or not name:
         return jsonify({"message":"Enter the user's name"}),206
     if role is None or not role:
@@ -59,7 +58,7 @@ def login():
         access_token = create_access_token(identity=user)
         return jsonify(dict(token = access_token, message = "Login successful!")), 200
 
-    response = jsonify(auth)
+    response = jsonify(authorize)
     response.status_code = 401
     return response
 
