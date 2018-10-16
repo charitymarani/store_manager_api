@@ -1,5 +1,5 @@
 from unittest import TestCase
-from application.apps import create_app
+from application import create_app
 from instance.config import app_config
 
 class BaseTestCase(TestCase):
