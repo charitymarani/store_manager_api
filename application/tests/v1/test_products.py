@@ -82,4 +82,53 @@ class TestProducts(BaseTestCase):
                 '/api/v1/products',headers=dict(Authorization="Bearer " + token))
             response_data = json.loads(response.data)
             self.assertEqual(response.status_code, 200)
+    def test_get_product_by_id(self):
+        with self.client:
+            # Register a user
+            self.client.post(
+                '/api/v1/auth/register',
+                data=json.dumps(dict(
+                    name='charity marani',
+                    email='chacha@gmail.com',
+                    role='admin',
+                    username='chacha',
+                    password='1234',
+                    confirm_password='1234'
+                )),
+                content_type='application/json'
+            )
+        
+            # login a user
+            login_response = self.client.post(
+                '/api/v1/auth/login',
+                data=json.dumps(dict(
+                    username='chacha',
+                    password='1234'
+                    
+                )),
+                content_type='application/json'
+            )
+            result=json.loads(login_response.data)
+            token=result["token"]
+            # Post a product
+            self.client.post(
+                '/api/v1/products',headers=dict(Authorization="Bearer " + token),
+                data=json.dumps(dict(
+                    id=200,
+                    name='heels',
+                    category='shoes',
+                    purchase_price=1000,
+                    selling_price=1800,
+                    quantity=70,
+                    low_limit=10,
+                    description='A wide based heel'
+
+                )),
+                content_type='application/json'
+                
+            )
+            response = self.client.get(
+                '/api/v1/products/100',headers=dict(Authorization="Bearer " + token))
+            response_data = json.loads(response.data)
+            self.assertEqual(response.status_code, 200)
     
