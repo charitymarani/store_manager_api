@@ -15,7 +15,7 @@ class Sale():
         return {"message":"A sale has been created successfully"}
     def get_all_sales(self):
         return SALES_DICT
-    def get_product_by_id(self,sale_id):
+    def get_sale_by_id(self,sale_id):
         if sale_id in SALES_DICT:
             return SALES_DICT[sale_id]
         return{"message":"The sales record you are looking for does not exist"}
