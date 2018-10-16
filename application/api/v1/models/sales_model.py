@@ -1,9 +1,8 @@
 SALES_DICT={}
 class Sale():
-    def __init__(self):
-        self.onesale_dict={}
-    def put(self,sale_id,date_created,created_by,items_count,total_amount):
         
+    def put(self,sale_id,date_created,created_by,items_count,total_amount):
+        self.onesale_dict={}
         self.onesale_dict["id"]=sale_id
         self.onesale_dict["date_created"]=date_created
         self.onesale_dict["created_by"]=created_by

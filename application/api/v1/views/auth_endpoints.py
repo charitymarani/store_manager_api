@@ -69,6 +69,12 @@ def logout():
     json_token_identifier = get_raw_jwt()['jti']
     BLACKLIST.add(json_token_identifier)
     return jsonify({"message": "Successfully logged out"}), 200
+@auth.route('users',methods=['GET'])
+def get_all_users():
+    '''Endpoint to get all users'''
+    response=jsonify(user_object.get_all_users())
+    response.status_code=200
+    return response
 
     
     
