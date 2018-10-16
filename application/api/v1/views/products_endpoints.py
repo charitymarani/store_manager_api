@@ -47,4 +47,9 @@ def get_all_products():
     response=jsonify(product_object.get_all_products())
     response.status_code=200
     return response
-    
+@product.route('/products/<product_id>',methods=['GET']) 
+@jwt_required
+def get_product_by_id(product_id):
+    response=jsonify(product_object.get_product_by_id(product_id))
+    response.status_code=200
+    return response
