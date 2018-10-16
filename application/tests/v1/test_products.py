@@ -46,8 +46,11 @@ class TestProducts(BaseTestCase):
                 content_type='application/json'
                 
             )
+
             response_data = json.loads(response.data)
             self.assertEqual("Product with id 100 added successfully",response_data["message"])
+
+
             self.assertEqual(response.status_code, 201)
 
     def test_get_all_products(self):
@@ -79,9 +82,11 @@ class TestProducts(BaseTestCase):
             result=json.loads(login_response.data)
             token=result["token"]
             response = self.client.get(
+
                 '/api/v1/products',headers=dict(Authorization="Bearer " + token))
             response_data = json.loads(response.data)
             self.assertEqual(response.status_code, 200)
+
     def test_get_product_by_id(self):
         with self.client:
             # Register a user

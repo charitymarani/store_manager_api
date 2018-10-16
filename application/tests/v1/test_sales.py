@@ -39,6 +39,7 @@ class TestSales(BaseTestCase):
                 )),
                 content_type='application/json'
             )
+
             response_data = json.loads(response.data)
             print(response_data)
             
@@ -46,3 +47,4 @@ class TestSales(BaseTestCase):
             self.assertEqual(response.status_code, 201)
 
     
+            
