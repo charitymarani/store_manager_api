@@ -4,6 +4,7 @@ from flask_jwt_extended import JWTManager
 
 from instance.config import app_config
 from .api.v1.views.auth_endpoints import auth,BLACKLIST
+from .api.v1.views.post_product_endpoint import product
 
 def create_app(config):
     '''function configuring the Flask App'''
@@ -21,7 +22,7 @@ def create_app(config):
     @jwt.user_claims_loader
     def add_claims_to_access_token(user_object):
         '''add role claims to access token'''
-        return dict(role=user_object["role"])
+        return {'role': user_object['role']}
 
     @jwt.user_identity_loader
     def user_identity_lookup(user_object):
@@ -36,5 +37,6 @@ def create_app(config):
         return json_token_identifier in BLACKLIST
 
     app.register_blueprint(auth)
+    app.register_blueprint(product)
 
     return app

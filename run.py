@@ -1,8 +1,8 @@
-from application.apps import create_app
-from instance.config import app_config
+from application import create_app
+# from instance.config import app_config
 
-config_name=app_config['development']
-app = create_app(config_name)
+CONFIG_NAME="development"
+app = create_app(CONFIG_NAME)
 # method to run the flask app
 if __name__ == '__main__':
     app.run()
