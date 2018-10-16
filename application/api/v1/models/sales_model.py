@@ -13,7 +13,7 @@ class Sale():
 
         SALES_DICT[sale_id]=self.onesale_dict
         return {"message":"A sale has been created successfully"}
-    def get_all_saless(self):
+    def get_all_sales(self):
         return SALES_DICT
     def get_product_by_id(self,sale_id):
         if sale_id in SALES_DICT:
