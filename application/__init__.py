@@ -1,3 +1,4 @@
+
 '''application/apps.py'''
 from flask import Flask
 from flask_jwt_extended import JWTManager
@@ -40,3 +41,4 @@ def create_app(config):
     app.register_blueprint(product)
 
     return app
+
