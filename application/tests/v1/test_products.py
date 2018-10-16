@@ -56,7 +56,7 @@ class TestProducts(BaseTestCase):
     def test_get_all_products(self):
         with self.client:
             # Register a user
-            register_response = self.client.post(
+            self.client.post(
                 '/api/v1/auth/register',
                 data=json.dumps(dict(
                     name='charity marani',
@@ -84,7 +84,6 @@ class TestProducts(BaseTestCase):
             response = self.client.get(
 
                 '/api/v1/products',headers=dict(Authorization="Bearer " + token))
-            response_data = json.loads(response.data)
             self.assertEqual(response.status_code, 200)
 
     def test_get_product_by_id(self):
@@ -134,6 +133,5 @@ class TestProducts(BaseTestCase):
             )
             response = self.client.get(
                 '/api/v1/products/100',headers=dict(Authorization="Bearer " + token))
-            response_data = json.loads(response.data)
             self.assertEqual(response.status_code, 200)
     
