@@ -11,14 +11,14 @@ class TestRegister(BaseTestCase):
                     name='charity marani',
                     email='chacha@gmail.com',
                     role='attendant',
-                    username='chacha',
+                    username='amina',
                     password='1234',
                     confirm_password='1234'
                 )),
                 content_type='application/json'
             )
             response_data = json.loads(response.data)
-            self.assertEqual("User with username chacha added successfully",response_data["message"])
+            self.assertEqual("User with username amina added successfully",response_data["message"])
             self.assertEqual(response.status_code, 201)
 
     def test_registration_with_invalid_email(self):
@@ -54,7 +54,7 @@ class TestRegister(BaseTestCase):
                 content_type='application/json'
             )
             response_data = json.loads(response.data)
-            print(response_data)
+            
             self.assertEqual("Username already exists",response_data["message"])
             
     def test_user_login(self):
@@ -89,7 +89,6 @@ class TestRegister(BaseTestCase):
             response2 = self.client.post(
                 '/api/v1/auth/logout',headers=dict(Authorization="Bearer " + token))
             response_data2 = json.loads(response2.data)
-            print (response_data2)
             self.assertEqual("Successfully logged out",response_data2["message"])
             self.assertEqual(response.status_code, 200)
     

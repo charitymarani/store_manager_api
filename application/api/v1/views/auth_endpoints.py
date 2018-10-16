@@ -17,21 +17,21 @@ def register():
     data = request.get_json()
     if not data:
         return jsonify({"message": "Fields cannot be empty"}) 
-    username = data.get('username')
+    username = data.get('username').strip()
     name = data.get('name')
-    email = data.get('email')
-    password = data.get('password')
-    confirm_password = data.get('confirm_password')
-    role=data.get('role')
+    email = data.get('email').strip()
+    password = data.get('password').strip()
+    confirm_password = data.get('confirm_password').strip()
+    role=data.get('role').strip()
 
     if username is None or not username:
-        return jsonify({"message": "Please specify a username"}) 
+        return jsonify({"message": "Please specify a username"}),206
     if name is None or not name:
         return jsonify({"message":"Enter the user's name"}),206
     if role is None or not role:
         return jsonify({"message":"You must specify the role"}),206
     if len(password) < 4:
-        return jsonify({"message": "The password is too short,minimum length is 4"}) 
+        return jsonify({"message": "The password is too short,minimum length is 4"}),206
     if confirm_password != password:
         return jsonify({"message": "The passwords you entered don't match"}) 
     match = re.match(
@@ -58,7 +58,7 @@ def login():
         access_token = create_access_token(identity=user)
         return jsonify(dict(token = access_token, message = "Login successful!")), 200
 
-    response = jsonify(auth)
+    response = jsonify(authorize)
     response.status_code = 401
     return response
 
