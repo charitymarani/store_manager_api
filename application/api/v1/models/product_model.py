@@ -1,8 +1,9 @@
 PRODUCTS_DICT={}
 class Product():
-    def __init__(self):
-        self.oneproduct_dict={}
+    
+        
     def put(self,product_id,name,category,purchase_price,selling_price,quantity,low_limit,description):
+        self.oneproduct_dict={}
         if product_id in PRODUCTS_DICT:
             return {"message":"The product Id you entered is being used for another product"}
         self.oneproduct_dict["id"]=product_id

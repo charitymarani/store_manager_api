@@ -12,6 +12,7 @@ sale_object = sales_model.Sale()
 @sale.route('/sales',methods=['POST'])
 @jwt_required
 def post_sales():
+    '''Endpoint for only attendant to post a sale'''
     data=request.get_json()
     item_count=data.get("items_count")
     total_amount=data.get("total_amount")
@@ -36,6 +37,7 @@ def post_sales():
 @sale.route('/sales',methods=['GET'])
 @jwt_required
 def get_all_sales():
+    '''Endpoint for only admin to view all sales'''
     claims=get_jwt_claims()
     admin="admin"
     if claims["role"]!= admin:
@@ -43,6 +45,21 @@ def get_all_sales():
     response= jsonify(sale_object.get_all_sales())
     response.status_code=200
     return response
+@sale.route('/sales/<int:sale_id>',methods=['GET'])
+@jwt_required
+def get_sale_by_id(sale_id):
+    '''Endpoint for only admin or creator of sale to  view a sale'''
+    claims=get_jwt_claims()
+    identity=get_jwt_identity()
+    admin="admin"
+    if claims["role"]!= admin and SALES_DICT[sale_id]["created_by"]!=identity:
+        return jsonify({"message":"Only an admin or attendant who created this sale are allowed to view it"}),401
+    response=jsonify(sale_object.get_sale_by_id(sale_id))
+    response.status_code=200
+    return response
+    
+
+
 
 
 

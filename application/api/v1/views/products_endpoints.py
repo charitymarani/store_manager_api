@@ -11,6 +11,7 @@ product_object = product_model.Product()
 @product.route('/products',methods=['POST'])
 @jwt_required
 def post_product():
+    '''Endpoint for only an admin to post a product'''
     data=request.get_json()
     if not data:
         return jsonify({"message": "Fields cannot be empty"}) 
@@ -44,12 +45,14 @@ def post_product():
 @product.route('/products',methods=['GET']) 
 @jwt_required
 def get_all_products():
+    '''Endpoint to get all products'''
     response=jsonify(product_object.get_all_products())
     response.status_code=200
     return response
-@product.route('/products/<product_id>',methods=['GET']) 
+@product.route('/products/<int:product_id>',methods=['GET']) 
 @jwt_required
 def get_product_by_id(product_id):
+    '''Endpoint to get product by product id'''
     response=jsonify(product_object.get_product_by_id(product_id))
     response.status_code=200
     return response

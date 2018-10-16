@@ -6,11 +6,11 @@ USERS_DICT = {}
 
 class Users():
     '''class to represent users model'''
-    def __init__(self):
-        self.oneuser_dict = {}
+       
 
     def put(self, name, username, email, password,role):
         '''add a user to USERS_DICT'''
+        self.oneuser_dict = {}
         if username in USERS_DICT:
             return {"message":"Username already exists"}
         
@@ -36,3 +36,5 @@ class Users():
         if username in USERS_DICT:
             return USERS_DICT[username]
         return {"message":"User not found"}
+    def get_all_users(self):
+        return USERS_DICT
