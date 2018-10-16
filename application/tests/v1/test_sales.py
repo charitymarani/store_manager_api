@@ -39,11 +39,13 @@ class TestSales(BaseTestCase):
                 )),
                 content_type='application/json'
             )
+
             response_data = json.loads(response.data)
            
             
             self.assertEqual("A sale has been created successfully",response_data["message"])
             self.assertEqual(response.status_code, 201)
+
     def test_get_all_sales(self):
         '''Only an admin can view all sales records'''
         with self.client:
@@ -102,6 +104,7 @@ class TestSales(BaseTestCase):
             response=self.client.get('api/v1/sales',headers=dict(Authorization="Bearer " + token2))
             
             self.assertEqual(response.status_code,200)
+
     def test_get_sale_by_id(self):
         with self.client:
             #register an admin and an attendant
