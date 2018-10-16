@@ -5,6 +5,7 @@ from flask_jwt_extended import JWTManager
 from instance.config import app_config
 from .api.v1.views.auth_endpoints import auth,BLACKLIST
 from .api.v1.views.products_endpoints import product
+from .api.v1.views.sales_endpoints import sale
 
 def create_app(config):
     '''function configuring the Flask App'''
@@ -38,5 +39,6 @@ def create_app(config):
 
     app.register_blueprint(auth)
     app.register_blueprint(product)
+    app.register_blueprint(sale)
 
     return app

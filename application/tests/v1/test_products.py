@@ -6,7 +6,7 @@ class TestProducts(BaseTestCase):
         '''Only an admin can post products'''
         with self.client:
             # Register an admin user
-            register_response = self.client.post(
+            self.client.post(
                 '/api/v1/auth/register',
                 data=json.dumps(dict(
                     name='charity marani',
