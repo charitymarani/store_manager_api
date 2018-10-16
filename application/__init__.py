@@ -4,7 +4,7 @@ from flask_jwt_extended import JWTManager
 
 from instance.config import app_config
 from .api.v1.views.auth_endpoints import auth,BLACKLIST
-from .api.v1.views.post_product_endpoint import product
+from .api.v1.views.products_endpoints import product
 
 def create_app(config):
     '''function configuring the Flask App'''
