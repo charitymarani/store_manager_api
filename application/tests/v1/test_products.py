@@ -77,6 +77,28 @@ class TestProducts(BaseTestCase):
             response_data = json.loads(response.data)
             self.assertEqual("Product with id 100 added successfully",response_data["message"])
             self.assertEqual(response.status_code, 201)
+            #Test post product with existing product id
+            responsez = self.client.post(
+                '/api/v1/products',headers=dict(Authorization="Bearer " + token),
+                data=json.dumps(dict(
+                    id=100,
+                    name='chunky heels',
+                    category='shoes',
+                    purchase_price=1000,
+                    selling_price=1800,
+                    quantity=70,
+                    low_limit=10,
+                    description='A wide based heel'
+
+                )),
+                content_type='application/json'
+                
+            )
+
+            response_dataz = json.loads(responsez.data)
+            self.assertEqual("The product Id you entered is being used for another product",response_dataz["message"])
+            self.assertEqual(response.status_code, 201)
+
             #Test empty data
             response1 = self.client.post(
                 '/api/v1/products',headers=dict(Authorization="Bearer " + token),

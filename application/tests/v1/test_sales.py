@@ -263,6 +263,11 @@ class TestSales(BaseTestCase):
             resultatt2=json.loads(responseatt2.data)
             self.assertEqual("Only an admin or attendant who created this sale are allowed to view it",resultatt2["message"])
             self.assertEqual(responseatt2.status_code,401)
+            #Test get sale that does not exist
+            responseadminz=self.client.get('api/v1/sales/90',headers=dict(Authorization="Bearer " + a_token2))
+            resultadminz=json.loads(responseadminz.data)
+            self.assertEqual("The sales record you are looking for does not exist",resultadminz["message"])
+
 
     
     
