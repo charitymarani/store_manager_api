@@ -16,7 +16,7 @@ def register():
     '''endpoint to add  a new user'''
     data = request.get_json()
     if not data:
-        return jsonify({"message": "Fields cannot be empty"}) 
+        return jsonify({"message": "Fields cannot be empty"}),400
     username = data.get('username').strip()
     name = data.get('name')
     email = data.get('email').strip()
@@ -24,16 +24,15 @@ def register():
     confirm_password = data.get('confirm_password').strip()
     role=data.get('role').strip()
 
-    if username is None or not username:
-        return jsonify({"message": "Please specify a username"}),206
-    if name is None or not name:
-        return jsonify({"message":"Enter the user's name"}),206
-    if role is None or not role:
-        return jsonify({"message":"You must specify the role"}),206
+    userinfo=[username,name,role,password,confirm_password,email]
+
+    for i in userinfo:
+        if i is None or not i:
+            return jsonify({"message": "Make sure all fields have been filled out"}),206
     if len(password) < 4:
-        return jsonify({"message": "The password is too short,minimum length is 4"}),206
+        return jsonify({"message": "The password is too short,minimum length is 4"}),400
     if confirm_password != password:
-        return jsonify({"message": "The passwords you entered don't match"}) 
+        return jsonify({"message": "The passwords you entered don't match"}),400
     match = re.match(
         r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', email)
     if match is None:
@@ -51,7 +50,7 @@ def login():
     username = data.get('username')
     password = data.get('password')
     if not username or not password:
-        return jsonify({"message": "Username or password missing"}), 400
+        return jsonify({"message": "Username or password missing"}), 206
     authorize = user_object.verify_password(username, password)
     user=user_object.get_user_by_username(username)
     if authorize == "True":
@@ -69,10 +68,16 @@ def logout():
     json_token_identifier = get_raw_jwt()['jti']
     BLACKLIST.add(json_token_identifier)
     return jsonify({"message": "Successfully logged out"}), 200
-@auth.route('users',methods=['GET'])
+@auth.route('/users',methods=['GET'])
 def get_all_users():
     '''Endpoint to get all users'''
     response=jsonify(user_object.get_all_users())
+    response.status_code=200
+    return response
+@auth.route('/users/<username>',methods=['GET'])
+def get_user_by_username(username):
+    '''Endpoint to get a  user by username'''
+    response=jsonify(user_object.get_user_by_username(username))
     response.status_code=200
     return response
 
