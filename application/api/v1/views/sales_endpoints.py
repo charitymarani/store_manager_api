@@ -14,6 +14,8 @@ sale_object = sales_model.Sale()
 def post_sales():
     '''Endpoint for only attendant to post a sale'''
     data=request.get_json()
+    if not data:
+        return jsonify({"message": "Fields cannot be empty"}),400 
     item_count=data.get("items_count")
     total_amount=data.get("total_amount")
     created_by=get_jwt_identity()
@@ -21,11 +23,10 @@ def post_sales():
     date_created=now
     sale_id=len(SALES_DICT)
 
-    if item_count is None or not item_count:
-        return jsonify({"message": "Enter the items count"}),206
-    if total_amount is None or not total_amount:
-        return jsonify({"message":"Enter total amount in this sale"}),206
-
+    salesinfo=[item_count,total_amount]
+    for i in salesinfo:
+        if i is None or not i:
+            return jsonify({"message":"Items_count and total_amount fields can't be empty"}),206
     claims=get_jwt_claims()
     attendant="attendant"
     if claims["role"] != attendant:

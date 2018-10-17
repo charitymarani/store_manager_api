@@ -12,7 +12,7 @@ class Users():
         '''add a user to USERS_DICT'''
         self.oneuser_dict = {}
         if username in USERS_DICT:
-            return {"message":"Username already exists"}
+            return {"message":"Username already exists,try a different one!"}
         
         self.oneuser_dict["name"] = name
         self.oneuser_dict["email"] = email

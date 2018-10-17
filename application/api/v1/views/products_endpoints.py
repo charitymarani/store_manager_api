@@ -14,8 +14,8 @@ def post_product():
     '''Endpoint for only an admin to post a product'''
     data=request.get_json()
     if not data:
-        return jsonify({"message": "Fields cannot be empty"}) 
-    id=data.get("id")
+        return jsonify({"message": "Fields cannot be empty"}),400 
+    product_id=data.get("id")
     name=data.get("name")
     category=data.get("category")
     B_price=data.get("purchase_price")
@@ -24,21 +24,15 @@ def post_product():
     limit=data.get("low_limit")
     desc=data.get("description")
 
-    if id is None or not id:
-        return jsonify({"message": "Please specify the product id"}) 
-    if name is None or not name:
-        return jsonify({"message":"Enter the product name"}),206
-    if qty is None or not qty:
-        return jsonify({"message":"You must specify the quantity"}),206
-    if limit is None or not limit:
-        return jsonify({"message":"You must specify the low inventory limit"}),206
-    if S_price is None or not S_price:
-        return jsonify({"message":"You must specify the product price"}),206
+    productinfo=[product_id,name,qty,limit,S_price]
+    for i in productinfo:
+        if i is None or not i:
+            return jsonify({"message": "Some required fields are missing!"}) ,206
     claims=get_jwt_claims()
     admin="admin"
     if claims['role'] != admin:
         return jsonify({"message":"Only an admin is permitted to post products"}),401
-    response=jsonify(product_object.put(id, name, category, B_price,S_price,qty,limit,desc))
+    response=jsonify(product_object.put(product_id, name, category, B_price,S_price,qty,limit,desc))
 
     response.status_code = 201
     return response  
