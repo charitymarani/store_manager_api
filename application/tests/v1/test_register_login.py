@@ -36,8 +36,24 @@ class TestRegister(BaseTestCase):
                 content_type='application/json'
             )
             response_data1 = json.loads(response1.data)
+            #Test registration with nonexistent role
             
-            self.assertEqual("Username already exists,try a different one!",response_data1["message"])
+            response8 = self.client.post(
+                '/api/v1/auth/register',
+                data=json.dumps(dict(
+                    name='charity marani',
+                    email='key@gmail.com',
+                    role='sWEEper',
+                    username='key',
+                    password='1234',
+                    confirm_password='1234'
+                )),
+                content_type='application/json'
+            )
+            response_data8 = json.loads(response8.data)
+            print(response_data8)
+            self.assertEqual(response8.status_code, 400)
+            self.assertEqual("The role sweeper does not exist.Only admin and attendant roles are allowed",response_data8["message"])
             #Test registration with invalid email
             response2 = self.client.post(
                 '/api/v1/auth/register',

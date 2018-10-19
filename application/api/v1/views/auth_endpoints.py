@@ -22,7 +22,10 @@ def register():
     email = data.get('email').strip()
     password = data.get('password').strip()
     confirm_password = data.get('confirm_password').strip()
-    role=data.get('role').strip()
+    role=data.get('role').lower().strip()
+    roles=["admin","attendant"]
+    if role not in roles:
+        return jsonify({"message":"The role {} does not exist.Only admin and attendant roles are allowed".format(role)}),400
 
     userinfo=[username,name,role,password,confirm_password,email]
 
