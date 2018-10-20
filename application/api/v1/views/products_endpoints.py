@@ -2,6 +2,7 @@
 from flask import Flask, request, jsonify,Blueprint,json
 from flask_jwt_extended import (JWTManager, jwt_required, get_jwt_claims)
 from ..models import product_model
+from ..utils import list_iterator
 
 product = Blueprint('product', __name__,url_prefix='/api/v1')
 
@@ -25,9 +26,9 @@ def post_product():
     desc=data.get("description")
 
     productinfo=[product_id,name,qty,limit,S_price]
-    for i in productinfo:
-        if i is None or not i:
-            return jsonify({"message": "Some required fields are missing!"}) ,206
+    exists=list_iterator(productinfo)
+    if exists is False:
+        return jsonify({"message": "Some required fields are missing!"}) ,206
     claims=get_jwt_claims()
     admin="admin"
     if claims['role'] != admin:

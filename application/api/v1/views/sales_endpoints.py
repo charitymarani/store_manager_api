@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify,Blueprint,json
 from flask_jwt_extended import (JWTManager, jwt_required, get_jwt_claims,get_jwt_identity)
 from ..models import sales_model
 from ..models.sales_model import SALES_DICT
+from ..utils import list_iterator
 
 sale = Blueprint('sale', __name__,url_prefix='/api/v1')
 
@@ -24,9 +25,9 @@ def post_sales():
     sale_id=len(SALES_DICT)
 
     salesinfo=[item_count,total_amount]
-    for i in salesinfo:
-        if i is None or not i:
-            return jsonify({"message":"Items_count and total_amount fields can't be empty"}),206
+    exists=list_iterator(salesinfo)
+    if exists is False:
+        return jsonify({"message":"Items_count and total_amount fields can't be empty"}),206
     claims=get_jwt_claims()
     attendant="attendant"
     if claims["role"] != attendant:

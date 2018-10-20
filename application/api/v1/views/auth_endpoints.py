@@ -5,6 +5,7 @@ import re
 from flask import Flask, request, jsonify,Blueprint
 from flask_jwt_extended import (JWTManager, jwt_required, create_access_token, get_raw_jwt)
 from ..models import auth_models
+from ..utils import list_iterator
 
 auth = Blueprint('auth', __name__,url_prefix='/api/v1/auth')
 
@@ -29,8 +30,8 @@ def register():
 
     userinfo=[username,name,role,password,confirm_password,email]
 
-    for i in userinfo:
-        if i is None or not i:
+    exists=list_iterator(userinfo)
+    if exists is False:
             return jsonify({"message": "Make sure all fields have been filled out"}),206
     if len(password) < 4:
         return jsonify({"message": "The password is too short,minimum length is 4"}),400
