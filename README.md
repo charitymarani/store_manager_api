@@ -69,10 +69,10 @@ nosetests application/tests/v1
 
 ```
 ### Deployment
-Coming soon
+The api is deployed on heroku on [THIS](https://store-manager-api123.herokuapp.com/) link
 
 ### Documentation
-Coming soon
+Find the documentation [HERE](https://documenter.getpostman.com/view/5036866/RWguwcJb)
 
 ### Built with
 
