@@ -44,7 +44,7 @@ virtualenv <environment name>
 activate the environment:
 
 ```
-$source <path to env name>/Scripts/activate (in bash)
+$source <Your env name>/bin/activate
 
 ```
 install dependencies:
