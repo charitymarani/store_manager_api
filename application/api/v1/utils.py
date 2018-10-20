@@ -5,4 +5,4 @@ def list_iterator(list):
 def get_item_by_key(key,dict_):
     if key in dict_:
         return dict_[key]
-    return False
+    return {"message":"Not found"}

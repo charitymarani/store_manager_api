@@ -18,6 +18,4 @@ class Sale():
         return SALES_DICT
     def get_sale_by_id(self,sale_id):
         result=get_item_by_key(sale_id,SALES_DICT)
-        if result is False:
-            return{"message":"The sales record you are looking for does not exist"}
         return result

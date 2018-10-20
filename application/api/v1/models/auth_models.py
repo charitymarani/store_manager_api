@@ -35,8 +35,6 @@ class Users():
         return {"message": "Username does not exist in our records"}
     def get_user_by_username(self,username):
         result=get_item_by_key(username,USERS_DICT)
-        if result is False:
-            return {"message":"User not found"}
         return result
     def get_all_users(self):
         return USERS_DICT

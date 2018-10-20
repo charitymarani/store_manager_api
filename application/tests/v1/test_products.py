@@ -243,7 +243,7 @@ class TestProducts(BaseTestCase):
             response1 = self.client.get(
                 '/api/v1/products/400',headers=dict(Authorization="Bearer " + token))
             resp=json.loads(response1.data)
-            self.assertEqual("The product you are looking for does not exist",resp["message"])
+            self.assertEqual("Not found",resp["message"])
 
 
     

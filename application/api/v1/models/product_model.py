@@ -23,8 +23,6 @@ class Product():
         return PRODUCTS_DICT
     def get_product_by_id(self,product_id):
         result=get_item_by_key(product_id,PRODUCTS_DICT)
-        if result is False:
-            return{"message":"The product you are looking for does not exist"}
         return result
 
 

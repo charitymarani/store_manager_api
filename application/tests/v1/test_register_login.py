@@ -232,5 +232,11 @@ class TestRegister(BaseTestCase):
             )
         result=self.client.get('/api/v1/auth/users/wanjiru')
         self.assertEqual(result.status_code,200)
+        #Test user by noexistent username
+        result2=self.client.get('/api/v1/auth/users/amos')
+        resp=json.loads(result2.data)
+        self.assertEqual("Not found",resp["message"])
+
+
 
     

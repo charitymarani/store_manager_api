@@ -266,7 +266,7 @@ class TestSales(BaseTestCase):
             #Test get sale that does not exist
             responseadminz=self.client.get('api/v1/sales/90',headers=dict(Authorization="Bearer " + a_token2))
             resultadminz=json.loads(responseadminz.data)
-            self.assertEqual("The sales record you are looking for does not exist",resultadminz["message"])
+            self.assertEqual("Not found",resultadminz["message"])
 
 
     
