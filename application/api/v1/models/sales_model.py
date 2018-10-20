@@ -1,3 +1,5 @@
+from ..utils import get_item_by_key
+
 SALES_DICT={}
 class Sale():
         
@@ -15,6 +17,7 @@ class Sale():
     def get_all_sales(self):
         return SALES_DICT
     def get_sale_by_id(self,sale_id):
-        if sale_id in SALES_DICT:
-            return SALES_DICT[sale_id]
-        return{"message":"The sales record you are looking for does not exist"}
+        result=get_item_by_key(sale_id,SALES_DICT)
+        if result is False:
+            return{"message":"The sales record you are looking for does not exist"}
+        return result

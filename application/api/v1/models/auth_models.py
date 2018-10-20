@@ -1,6 +1,7 @@
 import string
 from flask import jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
+from ..utils import get_item_by_key
 
 USERS_DICT = {}
 
@@ -33,8 +34,9 @@ class Users():
             return {"message": "The password you entered is incorrect"}
         return {"message": "Username does not exist in our records"}
     def get_user_by_username(self,username):
-        if username in USERS_DICT:
-            return USERS_DICT[username]
-        return {"message":"User not found"}
+        result=get_item_by_key(username,USERS_DICT)
+        if result is False:
+            return {"message":"User not found"}
+        return result
     def get_all_users(self):
         return USERS_DICT
