@@ -1,17 +1,18 @@
 
 '''application/apps.py'''
-from flask import Flask
+from flask import Flask, jsonify
 from flask_jwt_extended import JWTManager
 
 from instance.config import app_config
-from .api.v1.views.auth_endpoints import auth,BLACKLIST
+from .api.v1.views.auth_endpoints import auth, BLACKLIST
 from .api.v1.views.products_endpoints import product
 from .api.v1.views.sales_endpoints import sale
+
 
 def create_app(config):
     '''function configuring the Flask App'''
     app = Flask(__name__)
-    
+
     app.url_map.strict_slashes = False
     app.config.from_object(app_config[config])
     app.config["TESTING"] = True
@@ -38,9 +39,33 @@ def create_app(config):
         json_token_identifier = decrypted_token['jti']
         return json_token_identifier in BLACKLIST
 
+    '''Error handlers'''
+    @app.errorhandler(400)
+    def bad_request(error):
+        '''error handler for Bad request'''
+        return jsonify(dict(error='Bad request')), 400
+
+    @app.errorhandler(404)
+    def Resource_not_found(error):
+        '''error handler for 404'''
+        return jsonify(dict(error='Resource not found')), 404
+
+    @app.errorhandler(405)
+    def unauthorized(error):
+        '''error handler for 405'''
+        return jsonify(dict(error='Method not allowed')), 405
+
+    @app.errorhandler(500)
+    def internal_server_error(error):
+        '''error handler for 500'''
+        return jsonify(dict(error='Internal server error')), 500
+
+    @app.errorhandler(Exception)
+    def unhandled_exception(e):
+        return jsonify(dict(error='Internal server error')), 500
+
     app.register_blueprint(auth)
     app.register_blueprint(product)
     app.register_blueprint(sale)
 
     return app
-
