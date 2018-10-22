@@ -55,11 +55,6 @@ def create_app(config):
         '''error handler for 405'''
         return jsonify(dict(error='Method not allowed')), 405
 
-    @app.errorhandler(500)
-    def internal_server_error(error):
-        '''error handler for 500'''
-        return jsonify(dict(error='Internal server error')), 500
-
     @app.errorhandler(Exception)
     def unhandled_exception(e):
         return jsonify(dict(error='Internal server error')), 500
