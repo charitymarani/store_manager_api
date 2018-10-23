@@ -3,7 +3,6 @@ from application import create_app
 from instance.config import app_config
 from ...api.v1.models import (USERS_LIST,SALES_LIST,PRODUCTS_LIST)
 
-
 class BaseTestCase(TestCase):
 
     def setUp(self):
