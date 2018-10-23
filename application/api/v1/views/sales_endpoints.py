@@ -3,7 +3,7 @@ from flask import Flask, request, jsonify, Blueprint, json
 from flask_jwt_extended import (
     JWTManager, jwt_required, get_jwt_claims, get_jwt_identity)
 from ..models import sales_model
-from ..models.sales_model import SALES_DICT
+from ..models.sales_model import SALES_LIST
 from ..utils import list_iterator, get_item_by_key
 
 sale = Blueprint('sale', __name__, url_prefix='/api/v1')
@@ -24,7 +24,7 @@ def post_sales():
     created_by = get_jwt_identity()
     now = datetime.datetime.now()
     date_created = now
-    sale_id = len(SALES_DICT)+1
+    sale_id = len(SALES_LIST)+1
 
     salesinfo = [item_count, total_amount]
     exists = list_iterator(salesinfo)
@@ -59,7 +59,7 @@ def get_sale_by_id(sale_id):
     '''Endpoint for only admin or creator of sale to  view a sale'''
     claims = get_jwt_claims()
     identity = get_jwt_identity()
-    att_info = get_item_by_key('created_by', identity, SALES_DICT)
+    att_info = get_item_by_key('created_by', identity, SALES_LIST)
     admin = "admin"
     if "message" in att_info and claims["role"] != admin:
         return jsonify({"message": "Only an admin or attendant who created this sale are allowed to view it"}), 401
