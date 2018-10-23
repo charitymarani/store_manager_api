@@ -1,20 +1,25 @@
 import string
 from flask import jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
-from ..utils import get_item_by_key
+from ..utils import get_item_by_key, get_all
 
-USERS_DICT = {}
+USERS_LIST = []
+
 
 class Users():
     '''class to represent users model'''
-       
 
-    def put(self, name, username, email, password,role):
-        '''add a user to USERS_DICT'''
+    def put(self, name, username, email, password, role):
+        '''add a user to USERS_LIST'''
         self.oneuser_dict = {}
-        if username in USERS_DICT:
-            return {"message":"Username already exists,try a different one!"}
-        
+
+        email_data = get_item_by_key("email", email, USERS_LIST)
+        username_data = get_item_by_key("username", username, USERS_LIST)
+        if "message" not in email_data:
+            return {"message": "Email already in use,try a different one!"}
+        if "message" not in username_data:
+            return {"message": "Username already taken, try a different one"}
+
         self.oneuser_dict["name"] = name
         self.oneuser_dict["email"] = email
         self.oneuser_dict["username"] = username
@@ -22,19 +27,24 @@ class Users():
         pw_hash = generate_password_hash(password)
         self.oneuser_dict["password"] = pw_hash
 
-        USERS_DICT[username] = self.oneuser_dict
-        return {"message":"User with username {} added successfully".format(username)}
+        USERS_LIST.append(self.oneuser_dict)
+        return {"message": "User with username {} added successfully".format(username)}
 
     def verify_password(self, username, password):
         '''verify the password a user enters while logging in'''
-        if username in USERS_DICT:
-            result = check_password_hash(USERS_DICT[username]["password"], password)
+        user_obj = get_item_by_key('username', username, USERS_LIST)
+        if "message" not in user_obj:
+            result = check_password_hash(
+                user_obj['password'], password)
             if result is True:
                 return "True"
             return {"message": "The password you entered is incorrect"}
-        return {"message": "Username does not exist in our records"}
-    def get_user_by_username(self,username):
-        result=get_item_by_key(username,USERS_DICT)
+        return user_obj
+
+    def get_user_by_username(self, username):
+        result = get_item_by_key('username', username, USERS_LIST)
         return result
+
     def get_all_users(self):
-        return USERS_DICT
+        result = get_all(USERS_LIST)
+        return result
