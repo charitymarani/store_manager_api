@@ -1,7 +1,7 @@
 from unittest import TestCase
 from application import create_app
 from instance.config import app_config
-from ...api.v1.models import (USERS_DICT,SALES_DICT,PRODUCTS_DICT)
+from ...api.v1.models import (USERS_LIST,SALES_LIST,PRODUCTS_LIST)
 
 
 class BaseTestCase(TestCase):
@@ -14,7 +14,7 @@ class BaseTestCase(TestCase):
 
     def tearDown(self):
         """removes the dictionaries and the context"""
-        del USERS_DICT[:]
-        del SALES_DICT[:]
-        del PRODUCTS_DICT[:]
+        del USERS_LIST[:]
+        del SALES_LIST[:]
+        del PRODUCTS_LIST[:]
         
