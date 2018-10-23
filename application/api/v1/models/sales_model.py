@@ -1,6 +1,6 @@
 from ..utils import get_item_by_key, get_all
 
-SALES_DICT = []
+SALES_LIST = []
 
 
 class Sale():
@@ -13,13 +13,13 @@ class Sale():
         self.onesale_dict["items_count"] = items_count
         self.onesale_dict["total_amount"] = total_amount
 
-        SALES_DICT.append(self.onesale_dict)
+        SALES_LIST.append(self.onesale_dict)
         return {"message": "A sale has been created successfully"}
 
     def get_all_sales(self):
-        result = get_all(SALES_DICT)
+        result = get_all(SALES_LIST)
         return result
 
     def get_sale_by_id(self, sale_id):
-        result = get_item_by_key('sale_id', sale_id, SALES_DICT)
+        result = get_item_by_key('sale_id', sale_id, SALES_LIST)
         return result
